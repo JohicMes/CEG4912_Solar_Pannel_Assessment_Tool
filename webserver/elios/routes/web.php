@@ -12,10 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('graph');
 });
  
-Route::get('/user', function () {
-    return view('Pleasel eave');
-});
  
