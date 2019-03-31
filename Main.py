@@ -1,33 +1,32 @@
 # Heavy progress needed do not test - It will fuck everything up!
 import LightSensor
 import ServerConnect
-import MotorControll
+import stepperMotor
 import time
+from flask import Flask, request
 
+motorSteps = 0
 
-# This main section does three things
-# 1: Finds best angle by moving the motors and reading the value from the light sensor.
-#       - If the light value is higher the direction was a good one.
-#       - Else go the other way
-# 2: Once the best angle is found it captures a light sensor value and sends it to the server
 def main():
-    steps = 1
-    delay = 0.5
+    app = Flask(__name__)
+
+    @app.route('/', methods=["POST"])
+    def post():
+        print(request.form.get('u'))
+        print(request.form.get('r'))
+        print(request.form.get('d'))
+        print(request.form.get('l'))
+        return ''
+    app.run(host='0.0.0.0', port=8090)
+
+    initMotor1()
+    initMotor2()
+
     while True:
-        light_level = readLight()
-        missed_reading = 0
+        findAngle()
 
-        if readLight() > light_level:
-            forward(int(delay) / 1000.0, int(steps))
-        else:
-            backwards(int(delay) / 1000.0, int(steps))
 
-        if missed_reading == 2:
-            post_data(params={'intensity': readLight(), 'time': time})
-            print("Light Level : " + format(light_level, '.2f') + " lx")
-
-        time.sleep(0.5)
-
+def findAngle:
 
 if __name__=="__main__":
     main()

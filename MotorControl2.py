@@ -4,10 +4,10 @@ import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 # 4 GPIO INPUTS - No need to define ground and power (5v)
-coil_A_1_pin = 4  # pink
-coil_A_2_pin = 17  # orange
-coil_B_1_pin = 27  # blue
-coil_B_2_pin = 22  # yellow
+coil_A_1_pin = 18  # pink
+coil_A_2_pin = 23  # orange
+coil_B_1_pin = 24  # blue
+coil_B_2_pin = 25  # yellow
 
 # adjust if different
 StepCount = 8
@@ -37,14 +37,14 @@ def set_step(w1, w2, w3, w4):
     GPIO.output(coil_B_2_pin, w4)
 
 
-def forward(delay, steps):
+def forward2(delay, steps):
     for i in range(steps):
         for j in range(StepCount):
             setStep(Seq[j][0], Seq[j][1], Seq[j][2], Seq[j][3])
             time.sleep(delay)
 
 
-def backwards(delay, steps):
+def backwards2(delay, steps):
     for i in range(steps):
         for j in reversed(range(StepCount)):
             setStep(Seq[j][0], Seq[j][1], Seq[j][2], Seq[j][3])
@@ -58,15 +58,3 @@ def deg_2_step(self,deg):
     if deg < 0:
         deg = 0
     return self.globalMax*(deg/float(self.angle))
-
-
-def init_motor():
-    print('')
-    print('Please move motor until it has reached desire position')
-    x = input("Set as initial position? (0) Move Motor forward (F) or backwards (B) ") != 0
-    while x != 0:
-        x = input("Done (0) Move Motor forward (F) or backwards (B) ")
-        if x == "F":
-            forward(0, 1)
-        if x == 'B':
-            backwards(0, 1)
